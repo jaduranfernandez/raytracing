@@ -5,9 +5,9 @@ BUILD    := ./build
 OBJ_DIR  := $(BUILD)/objects
 APP_DIR  := $(BUILD)/apps
 TARGET   := program
-INCLUDE  := -I "C:\libsdl\include" include/module_1
+INCLUDE  := -I "C:\libsdl\include"
 SRC      :=                      \
-   $(wildcard src/module_1/*.cpp) \
+   $(wildcard src/Visual/*.cpp) \
    $(wildcard src/*.cpp)         \
 
 OBJECTS  := $(SRC:%.cpp=$(OBJ_DIR)/%.o)
