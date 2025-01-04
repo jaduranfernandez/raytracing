@@ -2,6 +2,7 @@
 #define Ray_HPP
 
 #include "../Math/Vector3D.hpp"
+#include "../Visual/Color.hpp"
 
 class Ray {
 public:
@@ -13,7 +14,7 @@ public:
     const Vector3D& direction() const { return dir; }
 
     Point3D at(double t) const;
-
+    Color getColor();
 private:
     Point3D orig;
     Vector3D dir;

@@ -7,10 +7,6 @@ class Viewport {
 private:
     Vector3D viewport_u;
     Vector3D viewport_v;
-    Vector3D pixel_delta_u;
-    Vector3D pixel_delta_v;
-    Point3D viewport_upper_left;
-    Point3D pixel00_loc;
 
 public:
     int window_width;
@@ -18,9 +14,14 @@ public:
     double viewport_width;
     double viewport_height;
     double aspect_ratio;
+    Vector3D pixel_delta_u;
+    Vector3D pixel_delta_v;
+    Point3D viewport_upper_left;
+    Point3D pixel00_pos;
     Viewport();
     ~Viewport();
     void setup(Point3D cameraPos, double focal_length);
+    Point3D getPixelPos(int row, int col);
 };
 
 #endif // Viewport_HPP

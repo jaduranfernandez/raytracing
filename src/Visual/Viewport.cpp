@@ -27,6 +27,9 @@ void Viewport::setup(Point3D cameraPos, double focal_length){
 
     // Calculate the location of the upper left pixel.
     viewport_upper_left = cameraPos - Vector3D(0, 0, focal_length) - viewport_u/2 - viewport_v/2;
-    pixel00_loc = viewport_upper_left + 0.5 * (pixel_delta_u + pixel_delta_v);
+    pixel00_pos = viewport_upper_left + 0.5 * (pixel_delta_u + pixel_delta_v);
 }
 
+Point3D Viewport::getPixelPos(int col, int row){
+    return pixel00_pos + (col * pixel_delta_u) + (row * pixel_delta_v);
+}

@@ -3,12 +3,11 @@
 
 Render::Render(){
     this->color_buffer = NULL;
-    this->gridX_step = 80;
-    this->gridY_step = 80;
 };
 
 bool Render::setup(){
-    this->viewport.setup(Vector3D(0,0,0), 1.0);
+    this->cameraPos = Vector3D(0,0,0);
+    this->viewport.setup(this->cameraPos, 1.0);
     int resolution = this->viewport.window_width*this->viewport.window_height;        
     this->color_buffer = (uint32_t*) malloc(sizeof(uint32_t) * resolution);
     for (int i = 0; i < resolution; i++){
@@ -45,7 +44,7 @@ void Render::destroy(){
 
 
 //      Draws collor buffer into screen
-void Render::renderFrame() {
+void Render::renderFrame(bool cleanAfterRender) {
     // Move bits from our 'color_buffer' variable to SDL color_buffer_texture
     SDL_UpdateTexture(
         color_buffer_texture,
@@ -56,54 +55,32 @@ void Render::renderFrame() {
     // Copy a portion of the 'color_buffer' texture to rendering target.
     SDL_RenderCopy(renderer, color_buffer_texture, NULL, NULL);
 
-    // Clear 'color_buffer'
-    memset(color_buffer, 0xFFcc0000, viewport.window_width * viewport.window_height * sizeof(uint32_t));
+    if(cleanAfterRender){
+        // Clear 'color_buffer'
+        memset(color_buffer, 0xFFcc0000, viewport.window_width * viewport.window_height * sizeof(uint32_t));
+    }
 
     // Swap the video buffer
     SDL_RenderPresent(renderer);
 
 }
 
-void Render::drawSquare(Vector2D pos,int width, int height, Color color){
-    int x = pos.x;
-    int y = pos.y;
-    for (int xPixel = 0; xPixel < width; xPixel++){
-        for (int yPixel = 0; yPixel < height; yPixel++){
-            Vector2D pos = Vector2D(x+xPixel,y+yPixel);
-            drawPixel(pos,color);   
-        }            
+void Render::drawRays(){
+    for (int y = 0; y < viewport.window_height; y++) {
+        for (int x = 0; x < viewport.window_width; x++) {
+            auto pixel_center = this->viewport.getPixelPos(x, y);
+            auto ray_direction = pixel_center - cameraPos;
+            Ray r(cameraPos, ray_direction);
+            Color pixel_color = r.getColor();
+            drawPixel(x, y, pixel_color);
+        }
     }
-    
 }
 
 
-void Render::drawPixel(Vector2D pos, Color color){
-    int x = pos.x;
-    int y = pos.y;
+void Render::drawPixel(int x, int y, Color color){
     if (x >= 0 && x < this->viewport.window_width && y >= 0 && y < this->viewport.window_height){
         color_buffer[(this->viewport.window_width * y) + x] = color.original;
     }
 }
 
-
-void Render::drawGrid(){
-    //      Paint horizontal lines
-    for (int y = 0; y < viewport.window_height; y+=this->gridY_step){
-        for (int x = 0; x < viewport.window_width; x++){
-            //grid[(this->viewport.window_width * y) + x] = WHITE;
-            drawPixel(Vector2D(x,y));
-        }
-    }        
-    //      Paint vertical lines
-    for (int x = 0; x < viewport.window_width; x+=this->gridX_step){
-        for (int y = 0; y < viewport.window_height; y++){
-            //grid[(this->viewport.window_width * y) + x] = WHITE;
-            drawPixel(Vector2D(x,y));                
-        }
-    }        
-}
-
-void Render::setupGrid(int xStep, int yStep){
-    this->gridX_step = xStep;
-    this->gridY_step = yStep;
-}

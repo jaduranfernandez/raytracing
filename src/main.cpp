@@ -11,9 +11,9 @@ int main()
 	while (!close) {
 		SDL_Event event;
 		// Events management
+		render.drawRays();
+		render.renderFrame(true);
 		while (SDL_PollEvent(&event)) {
-			render.drawSquare(Vector2D(0, 0), 100, 100);
-			render.renderFrame();
 			switch (event.type) {
 			case SDL_QUIT:
 				// handling of close button

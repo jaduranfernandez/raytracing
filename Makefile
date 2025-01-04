@@ -9,6 +9,7 @@ INCLUDE  := -I "C:\libsdl\include"
 SRC      :=                      \
    $(wildcard src/Visual/*.cpp) \
    $(wildcard src/Math/*.cpp) \
+   $(wildcard src/Raytracing/*.cpp) \
    $(wildcard src/*.cpp)         \
 
 OBJECTS  := $(SRC:%.cpp=$(OBJ_DIR)/%.o)
