@@ -8,11 +8,11 @@ int main()
 {
 	Render render = Render();
 	bool close = !render.setup();
+	render.drawRays();
+	render.renderFrame(true);
 	while (!close) {
 		SDL_Event event;
 		// Events management
-		render.drawRays();
-		render.renderFrame(true);
 		while (SDL_PollEvent(&event)) {
 			switch (event.type) {
 			case SDL_QUIT:

@@ -68,11 +68,11 @@ void Render::renderFrame(bool cleanAfterRender) {
 void Render::drawRays(){
     for (int y = 0; y < viewport.window_height; y++) {
         for (int x = 0; x < viewport.window_width; x++) {
-            auto pixel_center = this->viewport.getPixelPos(x, y);
-            auto ray_direction = pixel_center - cameraPos;
-            Ray r(cameraPos, ray_direction);
-            Color pixel_color = r.getColor();
-            drawPixel(x, y, pixel_color);
+            Point3D pixelCenter = this->viewport.getPixelPos(x, y);
+            Vector3D rayDirection = pixelCenter - cameraPos;
+            Ray r(cameraPos, rayDirection);
+            Color pixelColor = r.getColor();
+            drawPixel(x, y, pixelColor);
         }
     }
 }

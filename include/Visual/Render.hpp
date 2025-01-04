@@ -20,7 +20,7 @@ private:
     SDL_Window* window;
     SDL_Renderer* renderer;
     SDL_Texture * color_buffer_texture;
-    uint32_t* color_buffer;
+    uint32_t* color_buffer; 
     Viewport viewport;
     Point3D cameraPos;
 

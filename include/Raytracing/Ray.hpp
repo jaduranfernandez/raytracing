@@ -18,6 +18,7 @@ public:
 private:
     Point3D orig;
     Vector3D dir;
+    bool hitSphere(const Point3D& center, double radius);
 };
 
 #endif // Ray_HPP
