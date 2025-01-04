@@ -8,11 +8,17 @@ TARGET   := program
 INCLUDE  := -I "C:\libsdl\include"
 SRC      :=                      \
    $(wildcard src/Visual/*.cpp) \
+   $(wildcard src/Math/*.cpp) \
    $(wildcard src/*.cpp)         \
 
 OBJECTS  := $(SRC:%.cpp=$(OBJ_DIR)/%.o)
 DEPENDENCIES \
          := $(OBJECTS:.o=.d)
+LIB_FOLDER \
+		 := Math
+LIB_FILE \
+		 := file 
+
 
 all: build $(APP_DIR)/$(TARGET)
 
@@ -26,7 +32,7 @@ $(APP_DIR)/$(TARGET): $(OBJECTS)
 
 -include $(DEPENDENCIES)
 
-.PHONY: all build clean debug release info
+.PHONY: all build clean debug release info new clean
 
 build:
 	@mkdir -p $(APP_DIR)
@@ -52,3 +58,30 @@ info:
 run: $(APP_DIR)/$(TARGET)
 	$(APP_DIR)/$(TARGET)
 
+new:
+	@if [ -z "$(LIB_FOLDER)" ] || [ -z "$(LIB_FILE)" ]; then \
+		echo "Error: Must specify 'LIB_FOLDER' y 'LIB_FILE'. Example: make new LIB_FOLDER=Visual LIB_FILE=Render"; \
+	else \
+		mkdir -p include/$(LIB_FOLDER); \
+		mkdir -p src/$(LIB_FOLDER); \
+		echo "#ifndef $(LIB_FILE)_HPP" > include/$(LIB_FOLDER)/$(LIB_FILE).hpp; \
+		echo "#define $(LIB_FILE)_HPP" >> include/$(LIB_FOLDER)/$(LIB_FILE).hpp; \
+		echo "" >> include/$(LIB_FOLDER)/$(LIB_FILE).hpp; \
+		echo "class $(LIB_FILE) {" >> include/$(LIB_FOLDER)/$(LIB_FILE).hpp; \
+		echo "public:" >> include/$(LIB_FOLDER)/$(LIB_FILE).hpp; \
+		echo "    $(LIB_FILE)();" >> include/$(LIB_FOLDER)/$(LIB_FILE).hpp; \
+		echo "    ~$(LIB_FILE)();" >> include/$(LIB_FOLDER)/$(LIB_FILE).hpp; \
+		echo "};" >> include/$(LIB_FOLDER)/$(LIB_FILE).hpp; \
+		echo "" >> include/$(LIB_FOLDER)/$(LIB_FILE).hpp; \
+		echo "#endif // $(LIB_FILE)_HPP" >> include/$(LIB_FOLDER)/$(LIB_FILE).hpp; \
+		echo "#include \"../../include/$(LIB_FOLDER)/$(LIB_FILE).hpp\"" > src/$(LIB_FOLDER)/$(LIB_FILE).cpp; \
+		echo "" >> src/$(LIB_FOLDER)/$(LIB_FILE).cpp; \
+		echo "$(LIB_FILE)::$(LIB_FILE)() {" >> src/$(LIB_FOLDER)/$(LIB_FILE).cpp; \
+		echo "    // Constructor" >> src/$(LIB_FOLDER)/$(LIB_FILE).cpp; \
+		echo "}" >> src/$(LIB_FOLDER)/$(LIB_FILE).cpp; \
+		echo "" >> src/$(LIB_FOLDER)/$(LIB_FILE).cpp; \
+		echo "$(LIB_FILE)::~$(LIB_FILE)() {" >> src/$(LIB_FOLDER)/$(LIB_FILE).cpp; \
+		echo "    // Destructor" >> src/$(LIB_FOLDER)/$(LIB_FILE).cpp; \
+		echo "}" >> src/$(LIB_FOLDER)/$(LIB_FILE).cpp; \
+		echo "Files added: include/$(LIB_FOLDER)/$(LIB_FILE).hpp y src/$(LIB_FOLDER)/$(LIB_FILE).cpp"; \
+	fi

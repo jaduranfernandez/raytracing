@@ -66,8 +66,8 @@ void Render::renderFrame() {
 }
 
 void Render::drawSquare(Vector2D pos,int width, int height, Color color){
-    int x = pos.getX();
-    int y = pos.getY();
+    int x = pos.x;
+    int y = pos.y;
     for (int xPixel = 0; xPixel < width; xPixel++){
         for (int yPixel = 0; yPixel < height; yPixel++){
             Vector2D pos = Vector2D(x+xPixel,y+yPixel);
@@ -79,8 +79,8 @@ void Render::drawSquare(Vector2D pos,int width, int height, Color color){
 
 
 void Render::drawPixel(Vector2D pos, Color color){
-    int x = pos.getX();
-    int y = pos.getY();
+    int x = pos.x;
+    int y = pos.y;
     if (x >= 0 && x < this->window_width && y >= 0 && y < this->window_height){
         color_buffer[(this->window_width * y) + x] = color.original;
     }
