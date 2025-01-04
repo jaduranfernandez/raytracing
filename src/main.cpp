@@ -6,11 +6,8 @@
 
 int main()
 {
-	Vector3D v2 = Vector3D(3, 4, 7);
-	std::cout<<v2<<std::endl;
-
 	Render render = Render();
-	bool close = !render.setup(500, 500);
+	bool close = !render.setup();
 	while (!close) {
 		SDL_Event event;
 		// Events management

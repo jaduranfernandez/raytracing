@@ -1,0 +1,32 @@
+#include "../../include/Visual/Viewport.hpp"
+
+Viewport::Viewport() {
+    aspect_ratio = 16.0 / 9.0;
+    window_width = 800;
+}
+
+Viewport::~Viewport() {
+    // Destructor
+}
+
+void Viewport::setup(Point3D cameraPos, double focal_length){
+    // Calculate the image height, and ensure that it's at least 1.
+    window_height = int(window_width / aspect_ratio);
+    window_height = (window_height < 1) ? 1 : window_height;
+
+    viewport_height = 2.0;
+    viewport_width = viewport_height * (double(window_width)/window_height);
+
+    // Calculate the vectors across the horizontal and down the vertical viewport edges.
+    viewport_u = Vector3D(viewport_width, 0, 0);
+    viewport_v = Vector3D(0, -viewport_height, 0);
+
+    // Calculate the horizontal and vertical delta vectors from pixel to pixel.
+    pixel_delta_u = viewport_u / window_width;
+    pixel_delta_v = viewport_v / window_height;
+
+    // Calculate the location of the upper left pixel.
+    viewport_upper_left = cameraPos - Vector3D(0, 0, focal_length) - viewport_u/2 - viewport_v/2;
+    pixel00_loc = viewport_upper_left + 0.5 * (pixel_delta_u + pixel_delta_v);
+}
+

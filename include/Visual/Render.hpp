@@ -3,6 +3,7 @@
 #include <SDL2/SDL.h>
 #include "Color.hpp"
 #include "../Math/Vector2D.hpp"
+#include "Viewport.hpp"
 #include <iostream>
 #include <math.h>
 #include <string.h>
@@ -18,18 +19,16 @@ private:
     SDL_Window* window;
     SDL_Renderer* renderer;
     SDL_Texture * color_buffer_texture;
+    Viewport viewport;
     uint32_t* color_buffer;
 
-    int resolution;
-    int window_width;
-    int window_height;
     int gridX_step;
     int gridY_step;
 
 public:
 	//		Matrix full of zeros
 	Render();
-    bool setup(int width,int height);
+    bool setup();
     void destroy();
     void renderFrame();
     void drawSquare(Vector2D pos,int width, int height, Color color = Color::Grey());
