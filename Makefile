@@ -83,5 +83,5 @@ new:
 		echo "$(LIB_FILE)::~$(LIB_FILE)() {" >> src/$(LIB_FOLDER)/$(LIB_FILE).cpp; \
 		echo "    // Destructor" >> src/$(LIB_FOLDER)/$(LIB_FILE).cpp; \
 		echo "}" >> src/$(LIB_FOLDER)/$(LIB_FILE).cpp; \
-		echo "Files added: include/$(LIB_FOLDER)/$(LIB_FILE).hpp y src/$(LIB_FOLDER)/$(LIB_FILE).cpp"; \
+		echo "Files added: include/$(LIB_FOLDER)/$(LIB_FILE).hpp & src/$(LIB_FOLDER)/$(LIB_FILE).cpp"; \
 	fi

@@ -25,8 +25,8 @@ public:
     double length_squared() const;
 };
 
-// point3 is just an alias for Vector3D, but useful for geometric clarity in the code.
-using point3 = Vector3D;
+// Point3D is just an alias for Vector3D, but useful for geometric clarity in the code.
+using Point3D = Vector3D;
 
 // Vector Utility Functions
 
