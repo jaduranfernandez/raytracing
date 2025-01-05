@@ -8,7 +8,7 @@ Sphere::~Sphere() {
     // Destructor
 }
 
-bool Sphere::hit(const Ray& r, double ray_tmin, double ray_tmax, HitRecord& rec) const{
+bool Sphere::hit(const Ray& r, Interval ray_t, HitRecord& rec) const{
     Vector3D oc = center - r.origin();
     double a = r.direction().length_squared();
     double h = dot(r.direction(), oc);
@@ -22,9 +22,9 @@ bool Sphere::hit(const Ray& r, double ray_tmin, double ray_tmax, HitRecord& rec)
 
     // Find the nearest root that lies in the acceptable range.
     double root = (h - sqrtd) / a;
-    if (root <= ray_tmin || ray_tmax <= root) {
+    if (!ray_t.surrounds(root)) {
         root = (h + sqrtd) / a;
-        if (root <= ray_tmin || ray_tmax <= root)
+        if (!ray_t.surrounds(root))
             return false;
     }
     rec.t = root;

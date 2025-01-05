@@ -20,7 +20,7 @@ void Render::drawRays(const GeoBody& world){
             
             Color pixelColor;
             HitRecord rec;
-            if (world.hit(r, 0, infinity, rec)) {
+            if (world.hit(r, Interval(0, infinity), rec)) {
                 pixelColor = 127.5 * (rec.normal + Point3D(1,1,1)); // 127.5 = 255/2
             }
             else{

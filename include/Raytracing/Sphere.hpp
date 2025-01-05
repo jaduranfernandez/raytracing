@@ -10,7 +10,7 @@ private:
 public:
     Sphere(const Point3D center, double radius);
     ~Sphere();
-    bool hit(const Ray& r, double ray_tmin, double ray_tmax, HitRecord& rec) const override;
+    bool hit(const Ray& r, Interval ray_t, HitRecord& rec) const override;
 };
 
 #endif // Sphere_HPP

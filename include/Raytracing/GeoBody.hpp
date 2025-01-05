@@ -4,6 +4,7 @@
 
 #include "../Math/Utils.hpp"
 #include "Ray.hpp"
+#include "../Math/Interval.hpp"
 
 class HitRecord {
   public:
@@ -17,7 +18,7 @@ class HitRecord {
 class GeoBody {
   public:
     virtual ~GeoBody() = default;
-    virtual bool hit(const Ray& r, double ray_tmin, double ray_tmax, HitRecord& rec) const = 0;
+    virtual bool hit(const Ray& r, Interval ray_t, HitRecord& rec) const = 0;
 };
 
 

@@ -12,7 +12,7 @@ public:
     ~GeoBodyList();
     void clear();
     void add(shared_ptr<GeoBody> object);
-    bool hit(const Ray& r, double ray_tmin, double ray_tmax, HitRecord& rec) const override;
+    bool hit(const Ray& r, Interval ray_t, HitRecord& rec) const override;
 };
 
 #endif // GeoBodyList_HPP
