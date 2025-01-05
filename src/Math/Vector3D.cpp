@@ -15,6 +15,14 @@ Vector3D::~Vector3D() {
     // Destructor
 }
 
+Vector3D Vector3D::random() {
+    return Vector3D(random_double(), random_double(), random_double());
+}
+
+Vector3D Vector3D::random(double min, double max) {
+    return Vector3D(random_double(min,max), random_double(min,max), random_double(min,max));
+}
+
 Vector3D Vector3D::operator-() const { return Vector3D(-x, -y, -z); }
 double Vector3D::operator[](int i) const { 
     switch (i) {

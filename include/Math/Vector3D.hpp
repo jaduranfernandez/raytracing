@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <math.h>
+#include "Utils.hpp"
 
 class Vector3D {
 public:
@@ -23,6 +24,8 @@ public:
     Vector3D& operator/=(double t);
     double length() const;
     double length_squared() const;
+    static Vector3D random();
+    static Vector3D random(double min, double max);
 };
 
 // Point3D is just an alias for Vector3D, but useful for geometric clarity in the code.
@@ -72,6 +75,24 @@ inline Vector3D cross(const Vector3D& u, const Vector3D& v) {
 
 inline Vector3D unit_vector(const Vector3D& v) {
     return v / v.length();
+}
+
+// Will be used to calculate reflected normal using random noise
+inline Vector3D random_unit_vector() {
+    while (true) {
+        Vector3D p = Vector3D::random(-1,1);
+        double lensq = p.length_squared();
+        if (1e-160 < lensq && lensq <= 1) // Avoids infinite loops
+            return p / sqrt(lensq);
+    }
+}
+
+inline Vector3D random_on_hemisphere(const Vector3D& normal) {
+    Vector3D on_unit_sphere = random_unit_vector();
+    if (dot(on_unit_sphere, normal) > 0.0) // In the same hemisphere as the normal
+        return on_unit_sphere;
+    else
+        return -on_unit_sphere;
 }
 
 #endif // Vector3D_HPP

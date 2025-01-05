@@ -17,6 +17,7 @@ class Render: public SDLRenderer
 private:
     Viewport viewport;
     Point3D cameraPos;
+    Color calculateRayColor(const Ray& ray, const GeoBody& world);
 
 public:
 	//		Matrix full of zeros

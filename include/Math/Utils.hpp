@@ -8,7 +8,7 @@
 #include <memory>
 #include <cstdint>
 #include <math.h>
-
+#include <cstdlib>
 
 
 // Constants
@@ -26,6 +26,19 @@ inline std::string createFilePath(const char* folder, const char* name){
     std::string filename = std::string(folder) + std::string(name) + ".png";
     return filename;
 }
+
+
+inline double random_double() {
+    // Returns a random real in [0,1).
+    return std::rand() / (RAND_MAX + 1.0);
+}
+
+inline double random_double(double min, double max) {
+    // Returns a random real in [min,max).
+    return min + (max-min)*random_double();
+}
+
+
 
 
 #endif

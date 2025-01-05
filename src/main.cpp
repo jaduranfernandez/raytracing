@@ -23,6 +23,7 @@ int main(int argc, const char * argv[])
 	render.renderFrame(true);
 	if(argc > 1){
 		std::string filename = createFilePath("screenshots/", argv[1]);
+		render.saveFrame(filename.c_str());
 	}
 	while (!close) {
 		SDL_Event event;

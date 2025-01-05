@@ -17,16 +17,7 @@ void Render::drawRays(const GeoBody& world){
             Point3D pixelCenter = this->viewport.getPixelPos(x, y);
             Vector3D rayDirection = pixelCenter - cameraPos;
             Ray r(cameraPos, rayDirection);
-            
-            Color pixelColor;
-            HitRecord rec;
-            if (world.hit(r, Interval(0, infinity), rec)) {
-                pixelColor = 127.5 * (rec.normal + Point3D(1,1,1)); // 127.5 = 255/2
-            }
-            else{
-                pixelColor = r.getSkyboxColor();
-            }
-
+            Color pixelColor = calculateRayColor(r, world);
             drawPixel(x, y, pixelColor);
         }
     }
@@ -35,3 +26,15 @@ void Render::drawRays(const GeoBody& world){
 void Render::destroy(){
     SDLRenderer::destroy();
 }
+
+Color Render::calculateRayColor(const Ray& ray, const GeoBody& world){
+    HitRecord rec;
+    if (world.hit(ray, Interval(0, infinity), rec)) {
+        Vector3D direction = random_on_hemisphere(rec.normal);
+        // return 0.5 * ray_color(ray(rec.p, direction), world);
+        // return 127.5 * (rec.normal + Point3D(1,1,1)); // 127.5 = 255/2
+        return 0.5 * calculateRayColor(Ray(rec.p, direction), world); // 127.5 = 255/2
+    }
+    return ray.getSkyboxColor();
+}
+
