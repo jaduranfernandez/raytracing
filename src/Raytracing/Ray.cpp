@@ -20,16 +20,14 @@ Color Ray::getColor(){
     double t = hitSphere(Point3D(0,0,-1), 0.5);
     if (t > 0.0) {
         Vector3D N = unit_vector(at(t) - Vector3D(0,0,-1));
-        Point3D colorValue = 0.5*Point3D(N.x+1, N.y+1, N.z+1);
-        colorValue *= 255;
-        return Color(colorValue.x, colorValue.y, colorValue.z);   
+        Point3D colorValue = 127.5*Point3D(N.x+1, N.y+1, N.z+1); // 127.5 = 255/2
+        return Color(colorValue);
     }
 
     Vector3D unit_direction = unit_vector(direction());
     double a = 0.5*(unit_direction.y + 1.0);
-    Point3D colorValue = (1.0-a)*Point3D(1.0, 1.0, 1.0) + a*Point3D(0.5, 0.7, 1.0);
-    colorValue *= 255;
-    return Color(colorValue.x, colorValue.y, colorValue.z);   
+    Color originalColor = Color(127, 178, 255);
+    return originalColor.blend(Color::White(), a);
 }
 
 double Ray::hitSphere(const Point3D& center, double radius){
