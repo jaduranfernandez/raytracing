@@ -2,8 +2,7 @@
 #define RENDER_H
 #include <SDL2/SDL.h>
 #include "Color.hpp"
-#include "../Math/Vector2D.hpp"
-#include "../Raytracing/Ray.hpp"
+#include "../Raytracing/GeoBody.hpp"
 #include "Viewport.hpp"
 #include <iostream>
 #include <math.h>
@@ -30,7 +29,7 @@ public:
     bool setup();
     void destroy();
     void renderFrame(bool cleanAfterRender = true);
-    void drawRays();
+    void drawRays(const GeoBody& world);
     void drawPixel(int x, int y, Color color = Color::Grey());
 };
 

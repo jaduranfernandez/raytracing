@@ -17,7 +17,7 @@ bool Render::setup(){
         fprintf(stderr, "Error initializing SDL\n");
         return false;
     }
-    window = SDL_CreateWindow("Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, this->viewport.window_width, this->viewport.window_height, 0);
+    window = SDL_CreateWindow("Scene", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, this->viewport.window_width, this->viewport.window_height, 0);
     if(!this->window){
         fprintf(stderr, "Error creating SDL window\n");
         return false;
@@ -65,13 +65,22 @@ void Render::renderFrame(bool cleanAfterRender) {
 
 }
 
-void Render::drawRays(){
+void Render::drawRays(const GeoBody& world){
     for (int y = 0; y < viewport.window_height; y++) {
         for (int x = 0; x < viewport.window_width; x++) {
             Point3D pixelCenter = this->viewport.getPixelPos(x, y);
             Vector3D rayDirection = pixelCenter - cameraPos;
             Ray r(cameraPos, rayDirection);
-            Color pixelColor = r.getColor();
+            
+            Color pixelColor;
+            HitRecord rec;
+            if (world.hit(r, 0, infinity, rec)) {
+                pixelColor = 127.5 * (rec.normal + Point3D(1,1,1)); // 127.5 = 255/2
+            }
+            else{
+                pixelColor = r.getSkyboxColor();
+            }
+
             drawPixel(x, y, pixelColor);
         }
     }

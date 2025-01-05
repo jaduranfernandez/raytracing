@@ -14,7 +14,7 @@ public:
     const Vector3D& direction() const { return dir; }
 
     Point3D at(double t) const;
-    Color getColor();
+    Color getSkyboxColor();
 private:
     Point3D orig;
     Vector3D dir;

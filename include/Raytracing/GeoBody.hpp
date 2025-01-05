@@ -1,6 +1,8 @@
 #ifndef GeoBody_HPP
 #define GeoBody_HPP
 
+
+#include "../Math/Utils.hpp"
 #include "Ray.hpp"
 
 class HitRecord {
