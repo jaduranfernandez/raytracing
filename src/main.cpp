@@ -24,7 +24,7 @@ int main()
     world.add(make_shared<Sphere>(Point3D(0,-100.5,-1), 100));
 
 	Render render = Render();
-	bool close = !render.setup();
+	bool close = !render.init(800, 16.0/9.0);
 	render.drawRays(world);
 	render.renderFrame(true);
 	while (!close) {

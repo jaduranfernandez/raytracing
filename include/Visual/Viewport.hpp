@@ -9,8 +9,6 @@ private:
     Vector3D viewport_v;
 
 public:
-    int window_width;
-    int window_height;
     double viewport_width;
     double viewport_height;
     double aspect_ratio;
@@ -20,7 +18,7 @@ public:
     Point3D pixel00_pos;
     Viewport();
     ~Viewport();
-    void setup(Point3D cameraPos, double focal_length);
+    void setup(Point3D cameraPos, double focal_length, double aspect_ratio, int window_width, int& window_height);
     Point3D getPixelPos(int row, int col);
 };
 
