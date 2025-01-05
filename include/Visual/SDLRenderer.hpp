@@ -2,6 +2,7 @@
 #define SDLRenderer_HPP
 
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
 #include "Color.hpp"
 #include <iostream>
 #include <string>
@@ -24,7 +25,7 @@ public:
     SDLRenderer();
     ~SDLRenderer();
     void renderFrame(bool cleanAfterRender = true);
-    bool saveRender(std::string path);
+    bool saveFrame(const char* filename);
 };
 
 #endif // SDLRenderer_HPP

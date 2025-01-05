@@ -69,8 +69,42 @@ void SDLRenderer::drawPixel(int x, int y, Color color){
     }
 }
 
-bool SDLRenderer::saveRender(std::string path){
+bool SDLRenderer::saveFrame(const char* filename){
 
+    // Crear un framebuffer en el que renderizar la textura
+    SDL_Texture* target = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, width, height);
+    if (!target) {
+        SDL_Log("Error creating target texture: %s", SDL_GetError());
+        return false;
+    }
 
-    return false;
+    // Renderizar la textura en el framebuffer
+    SDL_SetRenderTarget(renderer, target);
+    SDL_RenderCopy(renderer, color_buffer_texture, nullptr, nullptr);
+
+    // Crear una superficie desde el framebuffer
+    SDL_Surface* surface = SDL_CreateRGBSurfaceWithFormat(0, width, height, 32, SDL_PIXELFORMAT_RGBA8888);
+    if (!surface) {
+        SDL_Log("Error creating surface: %s", SDL_GetError());
+        SDL_DestroyTexture(target);
+        return false;
+    }
+
+    // Leer los píxeles del framebuffer a la superficie
+    SDL_RenderReadPixels(renderer, nullptr, SDL_PIXELFORMAT_RGBA8888, surface->pixels, surface->pitch);
+
+    // Guardar la superficie como imagen
+    if (IMG_SavePNG(surface, filename) != 0) {
+        SDL_Log("Error saving image: %s", IMG_GetError());
+        SDL_FreeSurface(surface);
+        SDL_DestroyTexture(target);
+        return false;
+    }
+
+    // Limpiar
+    SDL_FreeSurface(surface);
+    SDL_DestroyTexture(target);
+    SDL_SetRenderTarget(renderer, nullptr);
+
+    return true;
 }

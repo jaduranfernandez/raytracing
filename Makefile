@@ -1,11 +1,12 @@
 CXX      := -g++
 CXXFLAGS := -pedantic-errors -Wall -Wextra
-LDFLAGS  := -L "C:\libsdl\lib" -lSDL2main -lSDL2 -lm
+LDFLAGS  := -L "C:\libsdl\lib" -lSDL2main -lSDL2 -lm -lSDL2_image
 BUILD    := ./build
 OBJ_DIR  := $(BUILD)/objects
 APP_DIR  := $(BUILD)/apps
 TARGET   := program
 INCLUDE  := -I "C:\libsdl\include"
+IMAGE	 := 
 SRC      :=                      \
    $(wildcard src/Visual/*.cpp) \
    $(wildcard src/Math/*.cpp) \
@@ -57,7 +58,7 @@ info:
 	@echo "[*] Dependencies:    ${DEPENDENCIES}"
 
 run: $(APP_DIR)/$(TARGET)
-	$(APP_DIR)/$(TARGET)
+	$(APP_DIR)/$(TARGET) $(IMAGE)
 
 new:
 	@if [ -z "$(LIB_FOLDER)" ] || [ -z "$(LIB_FILE)" ]; then \

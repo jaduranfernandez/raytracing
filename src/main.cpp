@@ -1,10 +1,4 @@
-#include <SDL2/SDL.h>
 #include <SDL2/SDL_timer.h>
-// #include "../include/Visual/Render.hpp"
-// #include "../include/Math/Vector3D.hpp"
-// #include "../include/Math/Utils.hpp"
-// #include "../include/Raytracing/GeoBodyList.hpp"
-// #include "../include/Raytracing/Sphere.hpp"
 #include <iostream>
 
 #include "../include/Math/Utils.hpp"
@@ -17,7 +11,7 @@
 using std::make_shared;
 using std::shared_ptr;
 
-int main()
+int main(int argc, const char * argv[])
 {
 	GeoBodyList world;
     world.add(make_shared<Sphere>(Point3D(0,0,-1), 0.5));
@@ -27,6 +21,9 @@ int main()
 	bool close = !render.init(800, 16.0/9.0);
 	render.drawRays(world);
 	render.renderFrame(true);
+	if(argc > 1){
+		std::string filename = createFilePath("screenshots/", argv[1]);
+	}
 	while (!close) {
 		SDL_Event event;
 		// Events management

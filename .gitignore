@@ -32,5 +32,6 @@
 *.app
 
 
-# Build folder
+# Folders
 /build/apps/*
+/screenshots/*

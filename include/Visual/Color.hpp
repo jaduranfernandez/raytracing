@@ -69,7 +69,6 @@ inline Color operator*(const Color& u, const Color& v) {
 
 inline Color operator*(double t, const Color& v) {
     t = std::fmax(0,t); // Avoid negative numbers
-    std::cout<<"Result: " <<std::abs(v.a * t)<<std::endl;
     return Color(t*v.r, t*v.g, t*v.b, t*v.a);
 }
 

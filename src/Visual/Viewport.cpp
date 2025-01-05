@@ -12,7 +12,6 @@ void Viewport::setup(Point3D cameraPos, double focal_length, double aspect_ratio
     // Calculate the image height, and ensure that it's at least 1.
     this->aspect_ratio = aspect_ratio;
     window_height = int(window_width / aspect_ratio);
-    std::cout<<"Width: "<<window_width<<"| Aspect Ratio: "<<aspect_ratio<<" | Height: "<<window_height<<std::endl;
     window_height = (window_height < 1) ? 1 : window_height;
 
     viewport_height = 2.0;

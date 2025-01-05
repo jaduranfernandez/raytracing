@@ -22,5 +22,10 @@ inline double degrees2radians(double degrees) {
     return degrees * deg2radConv;
 }
 
+inline std::string createFilePath(const char* folder, const char* name){
+    std::string filename = std::string(folder) + std::string(name) + ".png";
+    return filename;
+}
+
 
 #endif
