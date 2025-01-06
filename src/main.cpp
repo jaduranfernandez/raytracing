@@ -21,9 +21,11 @@ int main(int argc, const char * argv[])
 	// Render
 	int width = 800;
 	double aspectRatio = 16.0/9.0;
+	int samplesPerPixel = 100;
+	int maxDepth = 50;
 
 	Render render = Render();
-	bool close = !render.init(width, aspectRatio);
+	bool close = !render.init(width, aspectRatio, samplesPerPixel, maxDepth);
 	render.drawRays(world);
 	render.renderFrame(true);
 	

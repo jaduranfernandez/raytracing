@@ -8,6 +8,8 @@
 #include <string.h>
 #include <iomanip>
 #include <cstdint>
+#include <omp.h>
+#include <chrono>
 
 using namespace std;
 
@@ -17,8 +19,8 @@ class Render: public SDLRenderer
 private:
     Viewport viewport;
     Point3D cameraPos;
-    int samplesPerPixel = 5;   // Count of random samples for each pixel
-    int maxDepth = 10;
+    int samplesPerPixel;   // Count of random samples for each pixel
+    int maxDepth;
     double pixelSampleScale;
     Color calculateRayColor(const Ray& ray, int depth, const GeoBody& world);
     Ray getRay(int i, int j);
