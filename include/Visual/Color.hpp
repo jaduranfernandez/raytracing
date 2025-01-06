@@ -81,6 +81,17 @@ inline Color operator/(const Color& v, double t) {
     return (1/t) * v;
 }
 
+inline Color linear2gamma(const Color& c){
+    double rLinear = c.r / 255.0;
+    double gLinear = c.g / 255.0;
+    double bLinear = c.b / 255.0;
+
+    double r = rLinear > 0 ? std::sqrt(rLinear) : 0;
+    double g = gLinear > 0 ? std::sqrt(gLinear) : 0;
+    double b = bLinear > 0 ? std::sqrt(bLinear) : 0;
+    return Color(r * 255, g * 255, b * 255);
+}
+
 
 
 

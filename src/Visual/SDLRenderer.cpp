@@ -65,9 +65,10 @@ void SDLRenderer::renderFrame(bool cleanAfterRender){
 
 void SDLRenderer::drawPixel(int x, int y, Color color){
     color.a = 255;
-    color.clamp();    
+    color.clamp();   
+    Color gammaColor = linear2gamma(color);
     if (x >= 0 && x < width && y >= 0 && y < height){
-        color_buffer[(width * y) + x] = color.original;
+        color_buffer[(width * y) + x] = gammaColor.original;
     }
 }
 

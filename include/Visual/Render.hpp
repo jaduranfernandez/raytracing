@@ -8,8 +8,6 @@
 #include <string.h>
 #include <iomanip>
 #include <cstdint>
-#include <omp.h>
-#include <chrono>
 
 using namespace std;
 

@@ -51,7 +51,7 @@ Color Render::calculateRayColor(const Ray& ray, int depth, const GeoBody& world)
     HitRecord rec;
 
     if (world.hit(ray, Interval(0.001, infinity), rec)) {
-        Vector3D direction = random_on_hemisphere(rec.normal);
+        Vector3D direction = rec.normal + random_unit_vector(); // Lambertian sphere distribution
         // return 127.5 * (rec.normal + Point3D(1,1,1)); // 127.5 = 255/2
         return 0.5 * calculateRayColor(Ray(rec.p, direction), depth-1, world); // 127.5 = 255/2
     }
