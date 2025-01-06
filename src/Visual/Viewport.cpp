@@ -33,3 +33,7 @@ void Viewport::setup(Point3D cameraPos, double focal_length, double aspect_ratio
 Point3D Viewport::getPixelPos(int col, int row){
     return pixel00_pos + (col * pixel_delta_u) + (row * pixel_delta_v);
 }
+
+Point3D Viewport::getPixelPosOffset(int col, int row, double xOffset, double yOffset){
+    return pixel00_pos + ((col + xOffset) * pixel_delta_u) + ((row + yOffset) * pixel_delta_v);
+}

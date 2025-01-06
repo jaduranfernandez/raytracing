@@ -17,8 +17,10 @@ class Render: public SDLRenderer
 private:
     Viewport viewport;
     Point3D cameraPos;
+    int samplesPerPixel = 10;   // Count of random samples for each pixel
+    double pixelSampleScale;
     Color calculateRayColor(const Ray& ray, const GeoBody& world);
-
+    Ray getRay(int i, int j);
 public:
 	//		Matrix full of zeros
 	Render();

@@ -77,6 +77,11 @@ inline Vector3D unit_vector(const Vector3D& v) {
     return v / v.length();
 }
 
+inline Vector3D random_sample_square(){
+    // Returns the vector to a random point in the [-.5,-.5]-[+.5,+.5] unit square.
+    return Vector3D(random_double() - 0.5, random_double() - 0.5, 0);
+}
+
 // Will be used to calculate reflected normal using random noise
 inline Vector3D random_unit_vector() {
     while (true) {

@@ -11,9 +11,9 @@ Color::Color(uint32_t color){
 
 Color::Color(int r,int g,int b,int a){
     // Makes sure it has values in range [0, 255]
-    this->r = std::fmin(std::abs(r), 255);
-    this->g = std::fmin(std::abs(g), 255);
-    this->b = std::fmin(std::abs(b), 255);
+    this->r = std::abs(r);
+    this->g = std::abs(g);
+    this->b = std::abs(b);
     this->a = std::fmin(std::abs(a), 255);
     calculateColor();
 }
@@ -30,6 +30,14 @@ void Color::calculateColor(){
     original = (r<<24)+(g<<16)+(b<<8)+a;
 }
 
+void Color::clamp(){
+    this->r = std::fmin(r, 255);
+    this->g = std::fmin(g, 255);
+    this->b = std::fmin(b, 255);
+    this->a = std::fmin(a, 255);
+    calculateColor();
+}
+
 Color Color::blend(const Color& c, double sourcePonderation){
     sourcePonderation = std::fmin(std::abs(sourcePonderation), 1);
     Color blendedColor = Color(
@@ -43,18 +51,18 @@ Color Color::blend(const Color& c, double sourcePonderation){
 
 
 Color& Color::operator+=(const Color& v) {
-    this->r = std::fmin(std::abs(r + v.r), 255);
-    this->g = std::fmin(std::abs(g + v.g), 255);
-    this->b = std::fmin(std::abs(b + v.b), 255);
+    this->r = std::abs(r + v.r);
+    this->g = std::abs(g + v.g);
+    this->b = std::abs(b + v.b);
     this->a = std::fmin(std::abs(a + v.a), 255);
     this->calculateColor();
     return *this;
 }
 
 Color& Color::operator*=(double t) {
-    this->r = std::fmin(std::abs(r * t), 255);
-    this->g = std::fmin(std::abs(g * t), 255);
-    this->b = std::fmin(std::abs(b * t), 255);
+    this->r = std::abs(r * t);
+    this->g = std::abs(g * t);
+    this->b = std::abs(b * t);
     this->a = std::fmin(std::abs(a * t), 255);
     this->calculateColor();
     return *this;

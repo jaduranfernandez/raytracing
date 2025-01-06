@@ -20,7 +20,8 @@ Color Ray::getSkyboxColor() const{
     Vector3D unit_direction = unit_vector(direction());
     double a = 0.5*(unit_direction.y + 1.0);
     Color originalColor = Color(127, 178, 255);
-    return originalColor.blend(Color::White(), a);
+    Color blendedColor = originalColor.blend(Color::White(), a);
+    return blendedColor;
 }
 
 double Ray::hitSphere(const Point3D& center, double radius){

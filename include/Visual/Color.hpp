@@ -31,6 +31,7 @@ public:
     Color(const Vector3D& v);
 
     Color blend(const Color& c, double sourcePonderation);
+    void clamp();
     // Operators
     Color& operator+=(const Color& v);
     Color& operator*=(double t);
@@ -56,20 +57,20 @@ inline std::ostream& operator<<(std::ostream& out, const Color& c) {
 }
 
 inline Color operator+(const Color& u, const Color& v) {
-    return Color(u.r + v.r, u.g + v.g, u.b + v.b, u.a + v.a);
+    return Color(u.r + v.r, u.g + v.g, u.b + v.b);
 }
 
 inline Color operator-(const Color& u, const Color& v) {
-    return Color(u.r - v.r, u.g - v.g, u.b - v.b, u.a - v.a);
+    return Color(u.r - v.r, u.g - v.g, u.b - v.b);
 }
 
 inline Color operator*(const Color& u, const Color& v) {
-    return Color(u.r * v.r, u.g * v.g, u.b * v.b, u.a * v.a);
+    return Color(u.r * v.r, u.g * v.g, u.b * v.b);
 }
 
 inline Color operator*(double t, const Color& v) {
     t = std::fmax(0,t); // Avoid negative numbers
-    return Color(t*v.r, t*v.g, t*v.b, t*v.a);
+    return Color(t*v.r, t*v.g, t*v.b);
 }
 
 inline Color operator*(const Color& v, double t) {

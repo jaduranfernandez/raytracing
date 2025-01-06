@@ -20,6 +20,7 @@ public:
     ~Viewport();
     void setup(Point3D cameraPos, double focal_length, double aspect_ratio, int window_width, int& window_height);
     Point3D getPixelPos(int row, int col);
+    Point3D getPixelPosOffset(int row, int col, double xOffset, double yOffset);
 };
 
 #endif // Viewport_HPP

@@ -7,6 +7,7 @@ Render::Render(){
 
 bool Render::init(int width, double aspectRatio){
     this->viewport.setup(this->cameraPos, 1.0, aspectRatio, width, height);
+    pixelSampleScale = 1.0 / samplesPerPixel;
     return SDLRenderer::init(width, height);
 };
 
@@ -14,11 +15,12 @@ bool Render::init(int width, double aspectRatio){
 void Render::drawRays(const GeoBody& world){
     for (int y = 0; y < height; y++) {
         for (int x = 0; x < width; x++) {
-            Point3D pixelCenter = this->viewport.getPixelPos(x, y);
-            Vector3D rayDirection = pixelCenter - cameraPos;
-            Ray r(cameraPos, rayDirection);
-            Color pixelColor = calculateRayColor(r, world);
-            drawPixel(x, y, pixelColor);
+            Color pixelColor = Color::Black();
+            for (int sample = 0; sample < samplesPerPixel; sample++) {
+                Ray ray = getRay(x, y);
+                pixelColor += calculateRayColor(ray, world);
+            }
+            drawPixel(x, y, pixelColor * pixelSampleScale);
         }
     }
 }
@@ -27,11 +29,24 @@ void Render::destroy(){
     SDLRenderer::destroy();
 }
 
+Ray Render::getRay(int i, int j){
+    // Construct a camera ray originating from the origin and directed at randomly sampled
+    // point around the pixel location i, j.
+
+    Point3D offset = random_sample_square();
+    Point3D pixel_sample = this->viewport.getPixelPosOffset(i, j, offset.x, offset.y);
+    
+    auto ray_origin = this->cameraPos;
+    auto ray_direction = pixel_sample - ray_origin;
+
+    return Ray(ray_origin, ray_direction);
+}
+
+
 Color Render::calculateRayColor(const Ray& ray, const GeoBody& world){
     HitRecord rec;
     if (world.hit(ray, Interval(0, infinity), rec)) {
         Vector3D direction = random_on_hemisphere(rec.normal);
-        // return 0.5 * ray_color(ray(rec.p, direction), world);
         // return 127.5 * (rec.normal + Point3D(1,1,1)); // 127.5 = 255/2
         return 0.5 * calculateRayColor(Ray(rec.p, direction), world); // 127.5 = 255/2
     }

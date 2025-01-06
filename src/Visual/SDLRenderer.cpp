@@ -64,6 +64,8 @@ void SDLRenderer::renderFrame(bool cleanAfterRender){
 }
 
 void SDLRenderer::drawPixel(int x, int y, Color color){
+    color.a = 255;
+    color.clamp();    
     if (x >= 0 && x < width && y >= 0 && y < height){
         color_buffer[(width * y) + x] = color.original;
     }
