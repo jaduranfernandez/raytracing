@@ -32,6 +32,7 @@ bool Sphere::hit(const Ray& r, Interval ray_t, HitRecord& rec) const{
     rec.normal = (rec.p - center) / radius;
     Vector3D outward_normal = (rec.p - center) / radius;
     rec.setFaceNormal(r, outward_normal);
-    
+    rec.mat = mat;
+
     return true;
 }

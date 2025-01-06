@@ -67,3 +67,9 @@ double Vector3D::length_squared() const {
     return x*x + y*y + z*z;
 }
 
+bool Vector3D::nearZero() const{
+    // Return true if the vector is close to zero in all dimensions.
+    auto s = 1e-8;
+    return (std::fabs(x) < s) && (std::fabs(y) < s) && (std::fabs(z) < s);
+}
+

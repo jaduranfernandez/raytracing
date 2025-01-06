@@ -15,6 +15,7 @@ public:
     Vector3D(double x, double y, double z);
     ~Vector3D();
 
+
     // Operators
     Vector3D operator-() const;
     double operator[](int i) const;
@@ -24,6 +25,7 @@ public:
     Vector3D& operator/=(double t);
     double length() const;
     double length_squared() const;
+    bool nearZero() const;
     static Vector3D random();
     static Vector3D random(double min, double max);
 };
