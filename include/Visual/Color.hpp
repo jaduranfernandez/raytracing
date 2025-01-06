@@ -65,7 +65,7 @@ inline Color operator-(const Color& u, const Color& v) {
 }
 
 inline Color operator*(const Color& u, const Color& v) {
-    return Color(u.r * v.r, u.g * v.g, u.b * v.b);
+    return Color((u.r * v.r)/255, (u.g * v.g)/255, (u.b * v.b)/255);
 }
 
 inline Color operator*(double t, const Color& v) {

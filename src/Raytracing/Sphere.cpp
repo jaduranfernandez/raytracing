@@ -1,6 +1,6 @@
 #include "../../include/Raytracing/Sphere.hpp"
 
-Sphere::Sphere(const Point3D center, double radius): center(center), radius(std::fmax(0,radius)) {
+Sphere::Sphere(const Point3D center, double radius, shared_ptr<Material> mat): center(center), radius(std::fmax(0,radius)), mat(mat) {
     // Constructor
 }
 

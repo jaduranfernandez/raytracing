@@ -2,6 +2,7 @@
 #define RENDER_H
 #include "SDLRenderer.hpp"
 #include "../Raytracing/GeoBody.hpp"
+#include "../Raytracing/Material.hpp"
 #include "Viewport.hpp"
 #include <iostream>
 #include <math.h>

@@ -73,3 +73,5 @@ bool Vector3D::nearZero() const{
     return (std::fabs(x) < s) && (std::fabs(y) < s) && (std::fabs(z) < s);
 }
 
+
+

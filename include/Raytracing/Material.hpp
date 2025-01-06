@@ -18,4 +18,14 @@ class Lambertian : public Material {
     Color albedo;
 };
 
+class Metal : public Material {
+  public:
+    Metal(const Color& albedo) : albedo(albedo) {}
+    bool scatter(const Ray& r_in, const HitRecord& rec, Color& attenuation, Ray& scattered) const override;
+
+  private:
+    Color albedo;
+};
+
+
 #endif // Material_HPP

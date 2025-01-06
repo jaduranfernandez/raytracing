@@ -102,4 +102,8 @@ inline Vector3D random_on_hemisphere(const Vector3D& normal) {
         return -on_unit_sphere;
 }
 
+inline Vector3D reflect(const Vector3D& v, const Vector3D& n) {
+    return v - 2*dot(v,n)*n;
+}
+
 #endif // Vector3D_HPP
