@@ -13,13 +13,20 @@ using std::shared_ptr;
 
 int main(int argc, const char * argv[])
 {
+	// Scene
 	GeoBodyList world;
     world.add(make_shared<Sphere>(Point3D(0,0,-1), 0.5));
     world.add(make_shared<Sphere>(Point3D(0,-100.5,-1), 100));
+
+	// Render
+	int width = 800;
+	double aspectRatio = 16.0/9.0;
+
 	Render render = Render();
-	bool close = !render.init(800, 16.0/9.0);
+	bool close = !render.init(width, aspectRatio);
 	render.drawRays(world);
 	render.renderFrame(true);
+	
 	if(argc > 1){
 		std::string filename = createFilePath("screenshots/", argv[1]);
 		render.saveFrame(filename.c_str());

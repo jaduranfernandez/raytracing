@@ -17,14 +17,15 @@ class Render: public SDLRenderer
 private:
     Viewport viewport;
     Point3D cameraPos;
-    int samplesPerPixel = 10;   // Count of random samples for each pixel
+    int samplesPerPixel = 5;   // Count of random samples for each pixel
+    int maxDepth = 10;
     double pixelSampleScale;
-    Color calculateRayColor(const Ray& ray, const GeoBody& world);
+    Color calculateRayColor(const Ray& ray, int depth, const GeoBody& world);
     Ray getRay(int i, int j);
 public:
 	//		Matrix full of zeros
 	Render();
-    bool init(int width, double aspectRatio);
+    bool init(int width, double aspectRatio, int samplesPerPixel = 5, int maxDepth = 10);
     void destroy();
     void drawRays(const GeoBody& world);
 };

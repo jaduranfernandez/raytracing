@@ -5,7 +5,9 @@ Render::Render(){
     cameraPos = Vector3D(0, 0, 0);
 };
 
-bool Render::init(int width, double aspectRatio){
+bool Render::init(int width, double aspectRatio, int samples, int maxDepth){
+    this->samplesPerPixel = samples;
+    this->maxDepth = maxDepth;
     this->viewport.setup(this->cameraPos, 1.0, aspectRatio, width, height);
     pixelSampleScale = 1.0 / samplesPerPixel;
     return SDLRenderer::init(width, height);
@@ -18,7 +20,7 @@ void Render::drawRays(const GeoBody& world){
             Color pixelColor = Color::Black();
             for (int sample = 0; sample < samplesPerPixel; sample++) {
                 Ray ray = getRay(x, y);
-                pixelColor += calculateRayColor(ray, world);
+                pixelColor += calculateRayColor(ray, maxDepth, world);
             }
             drawPixel(x, y, pixelColor * pixelSampleScale);
         }
@@ -43,12 +45,12 @@ Ray Render::getRay(int i, int j){
 }
 
 
-Color Render::calculateRayColor(const Ray& ray, const GeoBody& world){
+Color Render::calculateRayColor(const Ray& ray, int depth, const GeoBody& world){
     HitRecord rec;
     if (world.hit(ray, Interval(0, infinity), rec)) {
         Vector3D direction = random_on_hemisphere(rec.normal);
         // return 127.5 * (rec.normal + Point3D(1,1,1)); // 127.5 = 255/2
-        return 0.5 * calculateRayColor(Ray(rec.p, direction), world); // 127.5 = 255/2
+        return 0.5 * calculateRayColor(Ray(rec.p, direction), depth-1, world); // 127.5 = 255/2
     }
     return ray.getSkyboxColor();
 }
