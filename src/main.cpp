@@ -20,12 +20,14 @@ int main(int argc, const char * argv[])
 
 	auto material_ground = make_shared<Lambertian>(Color(204, 204, 0));
     auto material_center = make_shared<Lambertian>(Color(50, 100, 127));
-    auto material_left   = make_shared<Dielectric>(1 / 1.33);
+    auto material_left   = make_shared<Dielectric>(1.5);
+	auto material_bubble = make_shared<Dielectric>(1.00 / 1.50);
     auto material_right  = make_shared<Metal>(Color(204, 140, 100), 0.8);
 
 	world.add(make_shared<Sphere>(Point3D( 0.0, -100.5, -1.0), 100.0, material_ground));
     world.add(make_shared<Sphere>(Point3D( 0.0,    0.0, -1.2),   0.5, material_center));
     world.add(make_shared<Sphere>(Point3D(-1.0,    0.0, -1.0),   0.5, material_left));
+    world.add(make_shared<Sphere>(Point3D(-1.0,    0.0, -1.0),   0.4, material_bubble));
     world.add(make_shared<Sphere>(Point3D( 1.0,    0.0, -1.0),   0.5, material_right));
 
     // world.add(make_shared<Sphere>(Point3D(0,0,-1), 0.5));
