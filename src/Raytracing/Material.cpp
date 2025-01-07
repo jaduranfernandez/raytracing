@@ -27,3 +27,14 @@ bool Metal::scatter(const Ray& r_in, const HitRecord& rec, Color& attenuation, R
     attenuation = albedo;
     return (dot(scattered.direction(), rec.normal) > 0);
 }
+
+bool Dielectric::scatter(const Ray& r_in, const HitRecord& rec, Color& attenuation, Ray& scattered) const {
+    attenuation = Color::White();
+    double ri = rec.isFrontFace ? (1.0/refraction_index) : refraction_index;
+
+    Vector3D unit_direction = unit_vector(r_in.direction());
+    Vector3D refracted = refract(unit_direction, rec.normal, ri);
+
+    scattered = Ray(rec.p, refracted);
+    return true;
+}

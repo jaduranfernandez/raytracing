@@ -28,5 +28,16 @@ class Metal : public Material {
     double fuzz;
 };
 
+class Dielectric : public Material {
+  public:
+    Dielectric(double refraction_index) : refraction_index(refraction_index) {}
+    bool scatter(const Ray& r_in, const HitRecord& rec, Color& attenuation, Ray& scattered) const override;
+
+  private:
+    // Refractive index in vacuum or air, or the ratio of the material's refractive index over
+    // the refractive index of the enclosing media
+    double refraction_index;
+};
+
 
 #endif // Material_HPP
