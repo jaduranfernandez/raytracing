@@ -9,6 +9,9 @@
 #include <string.h>
 #include <iomanip>
 #include <cstdint>
+#include <thread>
+#include <vector>
+#include <chrono>
 
 using namespace std;
 
@@ -23,6 +26,7 @@ private:
     double pixelSampleScale;
     Color calculateRayColor(const Ray& ray, int depth, const GeoBody& world);
     Ray getRay(int i, int j);
+    void renderSection(int startY, int endY,const GeoBody& world);
 public:
 	//		Matrix full of zeros
 	Render();

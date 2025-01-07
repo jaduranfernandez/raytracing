@@ -15,7 +15,33 @@ bool Render::init(int width, double aspectRatio, int samples, int maxDepth){
 
 
 void Render::drawRays(const GeoBody& world){
-    for (int y = 0; y < height; y++) {
+    auto start = std::chrono::high_resolution_clock::now();
+    int numThreads = std::thread::hardware_concurrency();
+    int rowsPerThread = height / numThreads;
+
+    std::vector<std::thread> threads;
+
+    for (int t = 0; t < numThreads; ++t) {
+        int startY = t * rowsPerThread;
+        int endY = (t == numThreads - 1) ? height : (t + 1) * rowsPerThread;
+
+        threads.emplace_back([this, startY, endY, &world]() {
+            this->renderSection(startY, endY, world);
+        });
+        // threads.emplace_back(renderSection, startY, endY, std::ref(world));
+    }
+
+    for (auto& thread : threads) {
+        thread.join();
+    }
+    auto end = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::seconds>(end - start);
+    std::cout << "Execution time: " << duration.count() << " seconds." << std::endl;
+}
+
+
+void Render::renderSection(int startY, int endY,const GeoBody& world){
+    for (int y = startY; y < endY; y++) {
         for (int x = 0; x < width; x++) {
             Color pixelColor = Color::Black();
             for (int sample = 0; sample < samplesPerPixel; sample++) {

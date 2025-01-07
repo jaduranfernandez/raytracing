@@ -1,8 +1,6 @@
 #include <SDL2/SDL_timer.h>
 #include <iostream>
-
 #include "../include/Math/Utils.hpp"
-// #include "../include/Raytracing/GeoBody.hpp"
 #include "../include/Raytracing/GeoBodyList.hpp"
 #include "../include/Raytracing/Material.hpp"
 #include "../include/Raytracing/Sphere.hpp"
@@ -15,6 +13,9 @@ using std::shared_ptr;
 int main(int argc, const char * argv[])
 {
 
+	// int numThreads = std::thread::hardware_concurrency();
+	// std::cout<<"Threads: "<<numThreads<<std::endl;
+	// return 0;
 	// Scene
 	GeoBodyList world;
 
