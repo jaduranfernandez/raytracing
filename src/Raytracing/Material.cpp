@@ -33,8 +33,17 @@ bool Dielectric::scatter(const Ray& r_in, const HitRecord& rec, Color& attenuati
     double ri = rec.isFrontFace ? (1.0/refraction_index) : refraction_index;
 
     Vector3D unit_direction = unit_vector(r_in.direction());
-    Vector3D refracted = refract(unit_direction, rec.normal, ri);
+    double cos_theta = std::fmin(dot(-unit_direction, rec.normal), 1.0);
+    double sin_theta = std::sqrt(1.0 - cos_theta*cos_theta);
 
-    scattered = Ray(rec.p, refracted);
+    bool cannot_refract = ri * sin_theta > 1.0;
+    Vector3D direction;
+
+    if (cannot_refract)
+        direction = reflect(unit_direction, rec.normal);
+    else
+        direction = refract(unit_direction, rec.normal, ri);
+
+    scattered = Ray(rec.p, direction);
     return true;
 }
