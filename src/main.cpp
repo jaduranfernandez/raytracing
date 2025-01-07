@@ -20,8 +20,8 @@ int main(int argc, const char * argv[])
 
 	auto material_ground = make_shared<Lambertian>(Color(204, 204, 0));
     auto material_center = make_shared<Lambertian>(Color(50, 100, 127));
-    auto material_left   = make_shared<Metal>(Color(204, 204, 204));
-    auto material_right  = make_shared<Metal>(Color(204, 140, 100));
+    auto material_left   = make_shared<Metal>(Color(204, 204, 204), 1);
+    auto material_right  = make_shared<Metal>(Color(204, 140, 100), 0.3);
 
 	world.add(make_shared<Sphere>(Point3D( 0.0, -100.5, -1.0), 100.0, material_ground));
     world.add(make_shared<Sphere>(Point3D( 0.0,    0.0, -1.2),   0.5, material_center));
@@ -34,7 +34,7 @@ int main(int argc, const char * argv[])
 	// Render
 	int width = 800;
 	double aspectRatio = 16.0/9.0;
-	int samplesPerPixel = 25;
+	int samplesPerPixel = 100;
 	int maxDepth = 50;
 
 	Render render = Render();
