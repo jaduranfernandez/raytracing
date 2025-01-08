@@ -14,4 +14,5 @@ public:
     bool hit(const Ray& r, Interval ray_t, HitRecord& rec) const override;
 };
 
+
 #endif // Sphere_HPP

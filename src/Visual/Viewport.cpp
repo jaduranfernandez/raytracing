@@ -8,25 +8,33 @@ Viewport::~Viewport() {
     // Destructor
 }
 
-void Viewport::setup(Point3D cameraPos, double focal_length, double aspect_ratio, int window_width, int& window_height){
+void Viewport::setup(Camera c, double aspect_ratio, int window_width, int& window_height){
     // Calculate the image height, and ensure that it's at least 1.
     this->aspect_ratio = aspect_ratio;
     window_height = int(window_width / aspect_ratio);
     window_height = (window_height < 1) ? 1 : window_height;
 
-    viewport_height = 2.0;
+    auto theta = degrees2radians(c.vFov);
+    auto h = std::tan(theta/2);
+    viewport_height = 2 * h * c.focal_length;
+    // viewport_height = 2.0;
     viewport_width = viewport_height * (double(window_width)/window_height);
 
+    // Calculate the u,v,w unit basis vectors for the camera coordinate frame.
+    Vector3D w = unit_vector(c.lookfrom - c.lookat);
+    Vector3D u = unit_vector(cross(c.vup, w));
+    Vector3D v = cross(w, u);
+
     // Calculate the vectors across the horizontal and down the vertical viewport edges.
-    viewport_u = Vector3D(viewport_width, 0, 0);
-    viewport_v = Vector3D(0, -viewport_height, 0);
+    viewport_u = viewport_width * u;    // Vector across viewport horizontal edge
+    viewport_v = viewport_height * -v;  // Vector down viewport vertical edge
 
     // Calculate the horizontal and vertical delta vectors from pixel to pixel.
     pixel_delta_u = viewport_u / window_width;
     pixel_delta_v = viewport_v / window_height;
 
     // Calculate the location of the upper left pixel.
-    viewport_upper_left = cameraPos - Vector3D(0, 0, focal_length) - viewport_u/2 - viewport_v/2;
+    viewport_upper_left = c.lookfrom - (c.focal_length * w) - viewport_u/2 - viewport_v/2;
     pixel00_pos = viewport_upper_left + 0.5 * (pixel_delta_u + pixel_delta_v);
 }
 

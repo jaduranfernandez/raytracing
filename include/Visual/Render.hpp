@@ -20,7 +20,7 @@ class Render: public SDLRenderer
 {
 private:
     Viewport viewport;
-    Point3D cameraPos;
+    Camera cam;
     int samplesPerPixel;   // Count of random samples for each pixel
     int maxDepth;
     double pixelSampleScale;

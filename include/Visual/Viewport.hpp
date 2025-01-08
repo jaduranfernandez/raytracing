@@ -2,6 +2,7 @@
 #define Viewport_HPP
 
 #include "../Math/Vector3D.hpp"
+#include "../Raytracing/Camera.hpp"
 
 class Viewport {
 private:
@@ -18,7 +19,7 @@ public:
     Point3D pixel00_pos;
     Viewport();
     ~Viewport();
-    void setup(Point3D cameraPos, double focal_length, double aspect_ratio, int window_width, int& window_height);
+    void setup(Camera c, double aspect_ratio, int window_width, int& window_height);
     Point3D getPixelPos(int row, int col);
     Point3D getPixelPosOffset(int row, int col, double xOffset, double yOffset);
 };

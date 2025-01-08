@@ -71,4 +71,3 @@ Color& Color::operator*=(double t) {
 Color& Color::operator/=(double t) {
     return *this *= 1/t;
 }
-

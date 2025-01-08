@@ -2,13 +2,20 @@
 
 
 Render::Render(){
-    cameraPos = Vector3D(0, 0, 0);
+    cam = Camera();
+    cam.vFov = 20;
+    // cam.focal_length = 1.0;
+    cam.position = Point3D(13,2,3);
+    cam.lookfrom = cam.position;
+    cam.lookat   = Point3D(-3,0,-1);
+    cam.vup      = Vector3D(0,1,0);
+    cam.focal_length = (cam.lookfrom - cam.lookat).length();
 };
 
 bool Render::init(int width, double aspectRatio, int samples, int maxDepth){
     this->samplesPerPixel = samples;
     this->maxDepth = maxDepth;
-    this->viewport.setup(this->cameraPos, 1.0, aspectRatio, width, height);
+    this->viewport.setup(this->cam, aspectRatio, width, height);
     pixelSampleScale = 1.0 / samplesPerPixel;
     return SDLRenderer::init(width, height);
 };
@@ -64,7 +71,7 @@ Ray Render::getRay(int i, int j){
     Point3D offset = random_sample_square();
     Point3D pixel_sample = this->viewport.getPixelPosOffset(i, j, offset.x, offset.y);
     
-    auto ray_origin = this->cameraPos;
+    auto ray_origin = this->cam.position;
     auto ray_direction = pixel_sample - ray_origin;
 
     return Ray(ray_origin, ray_direction);
