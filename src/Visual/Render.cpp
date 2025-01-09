@@ -4,10 +4,9 @@
 Render::Render(){
     cam = Camera();
     cam.vFov = 20;
-    // cam.focal_length = 1.0;
-    cam.position = Point3D(13,2,3);
+    cam.position = Point3D(10,2,0);
     cam.lookfrom = cam.position;
-    cam.lookat   = Point3D(-3,0,-1);
+    cam.lookat   = Point3D(-3,0,0);
     cam.vup      = Vector3D(0,1,0);
     cam.focal_length = (cam.lookfrom - cam.lookat).length();
 };
@@ -86,9 +85,7 @@ Color Render::calculateRayColor(const Ray& ray, int depth, const GeoBody& world)
     if (world.hit(ray, Interval(0.001, infinity), rec)) {
         Ray scattered;
         Color attenuation;
-        if (rec.mat->scatter(ray, rec, attenuation, scattered)){
-            // std::cout<<"Attenuation: "<< attenuation<< 
-            
+        if (rec.mat->scatter(ray, rec, attenuation, scattered)){            
             return attenuation * calculateRayColor(scattered, depth-1, world);
         }
         return Color::Black();
