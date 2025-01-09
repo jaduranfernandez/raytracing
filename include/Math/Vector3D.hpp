@@ -86,13 +86,18 @@ inline Vector3D random_sample_square(){
 
 // Will be used to calculate reflected normal using random noise
 inline Vector3D random_unit_vector() {
-    while (true) {
-        Vector3D p = Vector3D::random(-1,1);
-        double lensq = p.length_squared();
-        if (1e-160 < lensq && lensq <= 1) // Avoids infinite loops
-            return p / sqrt(lensq);
-    }
+    auto z = random_double(-1, 1);
+    auto theta = random_double(0, 2 * M_PI);
+    auto r = sqrt(1 - z * z);
+    return Vector3D(r * cos(theta), r * sin(theta), z);
 }
+
+inline Vector3D random_in_unit_disk() {
+    double theta = random_double(0, 2 * M_PI);
+    double r = sqrt(random_double(0, 1));     
+    return Vector3D(r * cos(theta), r * sin(theta), 0);
+}
+
 
 inline Vector3D random_on_hemisphere(const Vector3D& normal) {
     Vector3D on_unit_sphere = random_unit_vector();
