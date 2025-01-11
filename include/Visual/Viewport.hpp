@@ -17,6 +17,8 @@ public:
     Vector3D pixel_delta_v;
     Point3D viewport_upper_left;
     Point3D pixel00_pos;
+    Vector3D defocus_disk_u;       // Defocus disk horizontal radius
+    Vector3D defocus_disk_v;       // Defocus disk vertical radius
     Viewport();
     ~Viewport();
     void setup(Camera c, double aspect_ratio, int window_width, int& window_height);

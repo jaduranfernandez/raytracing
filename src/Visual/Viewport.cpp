@@ -16,7 +16,8 @@ void Viewport::setup(Camera c, double aspect_ratio, int window_width, int& windo
 
     auto theta = degrees2radians(c.vFov);
     auto h = std::tan(theta/2);
-    viewport_height = 2 * h * c.focal_length;
+    viewport_height = 2 * h * c.focus_dist;
+    // viewport_height = 2 * h * c.focal_length;
     // viewport_height = 2.0;
     viewport_width = viewport_height * (double(window_width)/window_height);
 
@@ -34,8 +35,14 @@ void Viewport::setup(Camera c, double aspect_ratio, int window_width, int& windo
     pixel_delta_v = viewport_v / window_height;
 
     // Calculate the location of the upper left pixel.
-    viewport_upper_left = c.lookfrom - (c.focal_length * w) - viewport_u/2 - viewport_v/2;
+    viewport_upper_left = c.lookfrom - (c.focus_dist * w) - viewport_u/2 - viewport_v/2;
+    // viewport_upper_left = c.lookfrom - (c.focal_length * w) - viewport_u/2 - viewport_v/2;
     pixel00_pos = viewport_upper_left + 0.5 * (pixel_delta_u + pixel_delta_v);
+
+    // Calculate the camera defocus disk basis vectors.
+    auto defocus_radius = c.focus_dist * std::tan(degrees2radians(c.defocus_angle / 2));
+    defocus_disk_u = u * defocus_radius;
+    defocus_disk_v = v * defocus_radius;
 }
 
 Point3D Viewport::getPixelPos(int col, int row){

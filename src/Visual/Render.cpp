@@ -11,6 +11,12 @@ Render::Render(){
     cam.focal_length = (cam.lookfrom - cam.lookat).length();
 };
 
+Render::Render(Camera cam){
+    this->cam = cam;
+    if(cam.focal_length == 0)
+        this->cam.focal_length = (cam.lookfrom - cam.lookat).length();
+}
+
 bool Render::init(int width, double aspectRatio, int samples, int maxDepth){
     this->samplesPerPixel = samples;
     this->maxDepth = maxDepth;
@@ -70,7 +76,8 @@ Ray Render::getRay(int i, int j){
     Point3D offset = random_sample_square();
     Point3D pixel_sample = this->viewport.getPixelPosOffset(i, j, offset.x, offset.y);
     
-    auto ray_origin = this->cam.position;
+    // auto ray_origin = this->cam.position;
+    auto ray_origin = (this->cam.defocus_angle <= 0) ? this->cam.position : defocusDiskSample();
     auto ray_direction = pixel_sample - ray_origin;
 
     return Ray(ray_origin, ray_direction);
@@ -94,5 +101,13 @@ Color Render::calculateRayColor(const Ray& ray, int depth, const GeoBody& world)
         // return 0.5 * calculateRayColor(Ray(rec.p, direction), depth-1, world); // 127.5 = 255/2
     }
     return ray.getSkyboxColor();
+}
+
+
+
+Point3D Render::defocusDiskSample() const{
+    // Returns a random point in the camera defocus disk.
+    auto p = random_in_unit_disk();
+    return this->cam.position + (p[0] * viewport.defocus_disk_u) + (p[1] * viewport.defocus_disk_v);
 }
 

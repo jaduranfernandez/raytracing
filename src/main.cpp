@@ -12,11 +12,11 @@ using std::shared_ptr;
 
 shared_ptr<Sphere> randomSphere(Point3D center);
 
+bool isInsideSphere(Sphere origin, Point3D newSpherePos, double newSphereRadius);
+
 int main(int argc, const char * argv[])
 {
-
     std::srand(24041999);
-
 	// Scene
 	GeoBodyList world;
 
@@ -39,7 +39,6 @@ int main(int argc, const char * argv[])
 
     for (int a = -spheresGridSize/2; a < spheresGridSize/2; a++) {
         for (int b = -spheresGridSize/2; b < spheresGridSize/2; b++) {
-            auto choose_mat = random_double();
             Point3D center(a + 0.9*random_double(), 0.2, b + 0.9*random_double());
             if ((center - Point3D(4, 0.2, 0)).length() > 0.9) {
                 world.add(randomSphere(center));
@@ -47,14 +46,23 @@ int main(int argc, const char * argv[])
         }
     }
 
+    // Camera
+    Camera cam = Camera();
+    cam.vFov = 20;
+    cam.position = Point3D(10,2,0);
+    cam.lookfrom = cam.position;
+    cam.lookat   = Point3D(-3,0,0);
+    cam.vup      = Vector3D(0,1,0);
+    cam.defocus_angle = 0.6;
+    cam.focus_dist = 10.0;
 
 	// Render
-	int width = 400;
+	int width = 1200;
 	double aspectRatio = 16.0/9.0;
-	int samplesPerPixel = 5;
-	int maxDepth = 25;
+	int samplesPerPixel = 500;
+	int maxDepth = 50;
 
-	Render render = Render();
+	Render render = Render(cam);
 	bool close = !render.init(width, aspectRatio, samplesPerPixel, maxDepth);
 	render.drawRays(world);
 	render.renderFrame(true);
@@ -103,4 +111,9 @@ shared_ptr<Sphere> randomSphere(Point3D center){
         sphere_material = make_shared<Dielectric>(1.5);
         return (make_shared<Sphere>(center, 0.2, sphere_material));
     }
+}
+
+
+bool isInsideSphere(Sphere origin, Point3D newSpherePos, double newSphereRadius){
+    return (newSpherePos - Point3D(4, 0.2, 0)).length() < (newSphereRadius + origin.getRadius());
 }

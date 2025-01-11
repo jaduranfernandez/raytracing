@@ -12,6 +12,7 @@ public:
     Sphere(const Point3D center, double radius, shared_ptr<Material> mat);
     ~Sphere();
     bool hit(const Ray& r, Interval ray_t, HitRecord& rec) const override;
+    double getRadius()const{return radius;}
 };
 
 

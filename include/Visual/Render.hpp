@@ -27,9 +27,11 @@ private:
     Color calculateRayColor(const Ray& ray, int depth, const GeoBody& world);
     Ray getRay(int i, int j);
     void renderSection(int startY, int endY,const GeoBody& world);
+    Point3D defocusDiskSample() const;
 public:
 	//		Matrix full of zeros
 	Render();
+	Render(Camera cam);
     bool init(int width, double aspectRatio, int samplesPerPixel = 5, int maxDepth = 10);
     void destroy();
     void drawRays(const GeoBody& world);
