@@ -25,6 +25,8 @@ To compile and run this project, follow these steps:
    - On Linux:
      ```bash
      sudo apt-get install libsdl2-dev
+     
+     sudo apt install libsdl2-image-dev
      ```
    - On Windows, you can install SDL2 and configure the library paths in the `Makefile` accordingly. Ensure the paths to SDL2's `include` and `lib` directories are correctly set.
 
